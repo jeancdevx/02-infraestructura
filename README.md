@@ -12,12 +12,6 @@ La infraestructura incluye:
 - **Capa de monitoreo**: Grafana
 - **Redes separadas**: `app_net`, `persistence_net`, `monitor_net`
 
-## Requisitos previos
-
-- Docker instalado y funcionando
-- Terraform instalado
-- Permisos para ejecutar Docker
-
 ## Clonar el repositorio
 
 ```bash
