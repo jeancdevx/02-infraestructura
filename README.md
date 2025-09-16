@@ -1,6 +1,7 @@
-# Ambiente DEV - Infraestructura Multi-Tier con Terraform
+# Terraform Hands-on Lab
 
-Este proyecto despliega un ambiente de desarrollo completo usando Terraform y Docker con arquitectura multi-tier.
+Con terraform habilitar un ambiente DEV con la siguiente configuración:
+![Arquitectura](./image.png)
 
 ## Arquitectura
 
@@ -16,6 +17,13 @@ La infraestructura incluye:
 - Docker instalado y funcionando
 - Terraform instalado
 - Permisos para ejecutar Docker
+
+## Clonar el repositorio
+
+```bash
+git clone git@github.com:jeancdevx/02-infraestructura.git
+cd 02-infraestructura
+```
 
 ## Despliegue
 
@@ -36,14 +44,10 @@ terraform apply -auto-approve
 ## Verificación
 
 ```bash
-# Verificar que todo funciona
-curl http://localhost:8080  # app1
-curl http://localhost:8081  # app2
-curl http://localhost:8082  # app3
-curl http://localhost:3000  # grafana
-
-# Ver información del ambiente
-terraform output
+curl http://localhost:8080
+curl http://localhost:8081
+curl http://localhost:8082
+curl http://localhost:3000
 ```
 
 ## Servicios disponibles
@@ -57,25 +61,9 @@ terraform output
 | **PostgreSQL** | localhost:5432 | example/example |
 | **Redis** | localhost:6379 | - |
 
-## Conectividad entre servicios
-
-- Los contenedores de aplicación pueden acceder a PostgreSQL y Redis
-- Grafana puede monitorear todos los servicios
-- Cada red está aislada según su función
-
 ## Limpieza
 
 ```bash
 # Destruir la infraestructura
 terraform destroy -auto-approve
 ```
-
-## Estructura del proyecto
-
-```
-.
-├── iac/
-│   ├── main.tf              # Configuración del proveedor Docker
-│   ├── network.tf           # Definición de redes Docker
-│   ├── docker-container.tf  # Contenedores y servicios
-└── README.md               #
