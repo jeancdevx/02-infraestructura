@@ -7,6 +7,7 @@ Con terraform habilitar un ambiente DEV con la siguiente configuración:
 
 La infraestructura incluye:
 
+- **Capa de balanceador de carga**: Nginx Proxy con upstream backend
 - **Capa de aplicación**: 3 contenedores Nginx (app1, app2, app3)
 - **Capa de persistencia**: PostgreSQL + Redis
 - **Capa de monitoreo**: Grafana
@@ -54,6 +55,13 @@ curl http://localhost:3000
 | **Grafana** | http://localhost:3000 | admin/admin |
 | **PostgreSQL** | localhost:5432 | example/example |
 | **Redis** | localhost:6379 | - |
+
+## Capa de configuracion (Ansible)
+
+```bash
+cd config/
+sudo ansible-playbook -i inventory.ini playbook.yaml
+```
 
 ## Limpieza
 
