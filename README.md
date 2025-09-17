@@ -1,6 +1,6 @@
-# Terraform Hands-on Lab
+# Ansible + Nginx
 
-Con terraform habilitar un ambiente DEV con la siguiente configuración:
+En el proyecto de la semana 2 añadir un balanceador de carga, utilizar round robin:
 ![Arquitectura](./image.png)
 
 ## Arquitectura
