@@ -14,7 +14,13 @@ resource "docker_container" "app1" {
 
   ports {
     internal = 80
-    external = 8080
+    external = 8081
+  }
+
+  volumes {
+    host_path = abspath("${path.module}/../config/files/app1")
+    container_path = "/usr/share/nginx/html"
+    read_only = false
   }
 }
 
@@ -34,7 +40,13 @@ resource "docker_container" "app2" {
 
   ports {
     internal = 80
-    external = 8081
+    external = 8082
+  }
+
+  volumes {
+    host_path = abspath("${path.module}/../config/files/app2")
+    container_path = "/usr/share/nginx/html"
+    read_only = false
   }
 }
 
@@ -54,6 +66,12 @@ resource "docker_container" "app3" {
 
   ports {
     internal = 80
-    external = 8082
+    external = 8083
+  }
+
+  volumes {
+    host_path = abspath("${path.module}/../config/files/app3")
+    container_path = "/usr/share/nginx/html"
+    read_only = false
   }
 }
