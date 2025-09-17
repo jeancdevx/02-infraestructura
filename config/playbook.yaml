@@ -1,0 +1,56 @@
+---
+- name: "Configurar Nginx como proxy"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    project_root: "{{ playbook_dir }}/../"
+    nginx_conf_host: "{{ project_root }}/volumes/nginx_conf"
+    web_root_host: "{{ project_root }}/volumes/web_content"
+    nginx_container: "nginx_proxy"
+
+  tasks:
+    - name: "Crear directorio en el host"
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0755'
+      loop:
+        - "{{ nginx_conf_host }}"
+        - "{{ web_root_host }}"
+        - "{{ project_root }}/config/files/app1"
+        - "{{ project_root }}/config/files/app2"
+        - "{{ project_root }}/config/files/app3"
+
+    - name: "Copiar contenido HTML para cada app"
+      ansible.builtin.copy:
+        src: "files/{{ item }}/index.html"
+        dest: "{{ project_root }}/config/files/{{ item }}/index.html"
+        mode: '0644'
+      loop:
+        - app1
+        - app2
+        - app3
+
+    - name: "Copiar index.html para web"
+      ansible.builtin.copy:
+        src: "files/app1/index.html"
+        dest: "{{ web_root_host }}/index.html"
+        mode: '0644'
+    
+    - name: "Copiar nginx.conf"
+      ansible.builtin.copy:
+        src: "templates/nginx.conf"
+        dest: "{{ nginx_conf_host }}/nginx.conf"
+        mode: '0644'
+
+    - name: "Intentar recargar Nginx"
+      ansible.builtin.command: >
+        docker exec {{ nginx_container }} nginx -s reload
+      register: reload_result
+      changed_when: reload_result.rc == 0
+      failed_when: false
+
+    - name: "Reiniciar Nginx"
+      ansible.builtin.command: >
+        docker restart {{ nginx_container }}
+      when: reload_result.rc != 0
